@@ -5,19 +5,11 @@ on:
     branches: [ "master" ]
     
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:20.10.9
-        options: --privileged
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Build Docker images
-        run: |
-          docker-compose -f compose.yml build
-      - name: Run Docker-compose
-        run: |
-          docker-compose -f compose.yml up -d
-          docker-compose -f compose.yml ps
+      - uses: actions/checkout@v4
+
+      - name: Run docker-compose
+        run: docker compose up -d
