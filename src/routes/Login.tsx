@@ -23,7 +23,7 @@ export default function Login() {
             <Card className="w-96 h-fit">
                 <CardHeader>
                     <CardTitle>Connexion</CardTitle>
-                    <CardDescription>Connectez-vous au paneau d'administration</CardDescription>
+                    <CardDescription>Connectez-vous au panneau d'administration</CardDescription>
                 </CardHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
