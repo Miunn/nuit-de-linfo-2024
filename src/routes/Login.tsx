@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LOGIN_SCHEMA } from "@/lib/forms";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,7 +34,7 @@ export default function Login() {
                                 name="username"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Username</FormLabel>
+                                        <FormLabel>Nom d'utilisateur</FormLabel>
                                         <FormControl>
                                             <Input placeholder="admin" {...field} />
                                         </FormControl>
