@@ -70,7 +70,8 @@ export default {
     	},
     	animation: {
     		'meteor-effect': 'meteor 5s linear infinite',
-			'water-translate': 'waterTranslate 60s linear infinite'
+			'water-translate': 'waterTranslate 60s linear infinite',
+			'boat-bob': 'boatBob 3s ease-in-out infinite'
     	},
     	keyframes: {
     		meteor: {
@@ -92,6 +93,17 @@ export default {
 				},
 				'100%': {
 					backgroundPosition: '100% 100%'
+				}
+			},
+			boatBob: {
+				'0%': {
+					transform: 'rotate(-1deg) translateY(0px) translateX(0px)'
+				},
+				'50%': {
+					transform: 'rotate(2deg) translateY(-3px) translateX(15px)'
+				},
+				'100%': {
+					transform: 'rotate(-1deg) translateY(0px) translateX(0px)'
 				}
 			}
     	}
