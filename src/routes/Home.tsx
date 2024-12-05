@@ -2,15 +2,26 @@ import { Button } from "@/components/ui/button";
 import { Meteors } from "@/components/ui/meteors";
 import { Toaster } from "@/components/ui/toaster";
 import Spline from '@splinetool/react-spline';
+import { useNavigate } from "react-router";
 
 export default function Home() {
+    const navigate = useNavigate();
+
+    const onClickConnexion = () => {
+        navigate("/login");
+    }
+
+    const onClickPodcasts = () => {
+        navigate("/podcasts");
+    }
+
     return (
         <div className="w-full min-h-screen" style={{
             background: "linear-gradient(115deg, #62cff4, #2c67f2)"
         }}>
             <div className="space-x-6 absolute right-20 top-3">
-                <Button variant="link">Podcasts</Button>
-                <Button variant="link">Connexion</Button>
+                <Button variant="link" onClick={onClickPodcasts}>Podcasts</Button>
+                <Button variant="link" onClick={onClickConnexion}>Connexion</Button>
             </div>
             {/* Meaty part - Meteor effect */}
             <Meteors number={24} />
