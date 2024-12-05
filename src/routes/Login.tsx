@@ -2,12 +2,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Toaster } from "@/components/ui/toaster";
+import { toast } from "@/hooks/use-toast";
 import { LOGIN_SCHEMA } from "@/lib/forms";
+import { redirectIfTokenValid } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { z } from "zod";
 
 export default function Login() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [cookies, setCookie] = useCookies(["token"]);
+    const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof LOGIN_SCHEMA>>({
         resolver: zodResolver(LOGIN_SCHEMA),
@@ -18,8 +28,37 @@ export default function Login() {
     });
 
     function onSubmit(data: z.infer<typeof LOGIN_SCHEMA>) {
-        console.log(data);
+        setIsLoading(true);
+        fetch(`${import.meta.env.VITE_STATS_REMOTE_URL}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(res => {
+            setIsLoading(false);
+            return res.json();
+        }).then(data => {
+            if (!data.access_token) {
+                toast({
+                    title: "Erreur",
+                    description: "Nom d'utilisateur ou mot de passe incorrect",
+                    variant: "destructive"
+                })
+                return;
+            }
+
+            Promise.resolve(
+                setCookie('token', data.access_token, { path: "/" })
+            ).then(() => {
+                navigate("/");
+            });
+        });
     }
+
+    useEffect(() => {
+        redirectIfTokenValid(cookies.token, "/dashboard", navigate);
+    }, [cookies.token]);
 
     return (
         <div className="w-full h-full min-h-screen flex items-center justify-center">
@@ -62,12 +101,15 @@ export default function Login() {
                             />
                         </CardContent>
                         <CardFooter>
-                            <Button>Se connecter</Button>
+                            {isLoading
+                            ? <Button disabled><Loader2 className="animate-spin" /> Se connecter</Button>
+                            : <Button >Se connecter</Button>}
                         </CardFooter>
                     </form>
                 </Form>
             </Card>
 
+            <Toaster />
         </div>
     );
 }

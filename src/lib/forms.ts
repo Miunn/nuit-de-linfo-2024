@@ -9,6 +9,6 @@ export const LOGIN_SCHEMA = z.object({
     password: z.string({
         required_error: "Le mot de passe est requis",
     }).min(1, {
-        message: "Le mot de passe ne peut est requis",
+        message: "Le mot de passe est requis",
     }),
 });
