@@ -57,7 +57,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-        redirectIfTokenValid(cookies.token, "/dashboard", navigate);
+        redirectIfTokenValid(cookies.token, "/predict", navigate);
     }, [cookies.token]);
 
     return (
