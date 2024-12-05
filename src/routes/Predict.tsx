@@ -57,15 +57,15 @@ const isTokenValid = async (token: string) => {
         const r = await fetch(import.meta.env.VITE_STATS_REMOTE_URL + "/check-token", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
-              "access_token": token,
-              "token_type": "Bearer"
+                "access_token": token,
+                "token_type": "Bearer"
             })
-          });
-        
-          return r.ok;
+        });
+
+        return r.ok;
     } catch {
         return false;
     }
@@ -109,7 +109,7 @@ export default function PredictAndSetInteractions() {
             if (!valid) {
                 // Remove invalid token
                 removeCookie('token', { path: '/' });
-                
+
                 // Show toast and redirect to login
                 toast({
                     title: "Session expirée",
@@ -189,7 +189,7 @@ export default function PredictAndSetInteractions() {
             navigate("/login");
             return;
         }
-    
+
         setIsLoadingSet(true);
         try {
             data.interactions = data.interactions.replace(/\s/g, "");
@@ -207,7 +207,7 @@ export default function PredictAndSetInteractions() {
                     }),
                 }
             );
-    
+
             if (!response.ok) {
                 if (response.status === 401) {
                     // Token is no longer valid
@@ -231,7 +231,7 @@ export default function PredictAndSetInteractions() {
                 const errorData = await response.json();
                 throw new Error(errorData.message || "Échec de la mise à jour des interactions");
             }
-    
+
             const result = await response.json();
             toast({
                 title: "Succès",
@@ -251,7 +251,7 @@ export default function PredictAndSetInteractions() {
             setIsLoadingSet(false);
         }
     };
-    
+
 
     return (
         <div className="w-full h-full min-h-screen flex items-center justify-center p-4">
@@ -284,6 +284,21 @@ export default function PredictAndSetInteractions() {
                                     )}
                                 />
                             </CardContent>
+                            {prediction && (
+                                <CardContent className="space-y-2">
+                                    <p>
+                                        <strong>Dernière Action :</strong> {prediction.last_action}
+                                    </p>
+                                    <p>
+                                        <strong>Prochaine Action Prédite :</strong>{" "}
+                                        {prediction.predicted_next_action}
+                                    </p>
+                                    <p>
+                                        <strong>Probabilité :</strong>{" "}
+                                        {(prediction.probability * 100).toFixed(2)}%
+                                    </p>
+                                </CardContent>
+                            )}
                             <CardFooter>
                                 {isLoadingPredict ? (
                                     <Button type="submit" disabled className="w-full">
@@ -297,21 +312,6 @@ export default function PredictAndSetInteractions() {
                             </CardFooter>
                         </form>
                     </Form>
-                    {prediction && (
-                        <CardContent className="space-y-2">
-                            <p>
-                                <strong>Dernière Action :</strong> {prediction.last_action}
-                            </p>
-                            <p>
-                                <strong>Prochaine Action Prédite :</strong>{" "}
-                                {prediction.predicted_next_action}
-                            </p>
-                            <p>
-                                <strong>Probabilité :</strong>{" "}
-                                {(prediction.probability * 100).toFixed(2)}%
-                            </p>
-                        </CardContent>
-                    )}
                 </Card>
 
                 {/* Set Interactions Card */}
