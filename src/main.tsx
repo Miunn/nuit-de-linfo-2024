@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import Home from './routes/Home.tsx'
 import Login from './routes/Login.tsx'
 import NotFound from './routes/NotFound.tsx'
+import Predict from './routes/Predict.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')!).render(
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="login" element={<Login />} />
+      <Route path="predict" element={<Predict />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     </BrowserRouter>
