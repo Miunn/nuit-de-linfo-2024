@@ -8,6 +8,10 @@ export default function Home() {
         <div className="w-full min-h-screen" style={{
             background: "linear-gradient(115deg, #62cff4, #2c67f2)"
         }}>
+            <div className="space-x-6 absolute right-20 top-3">
+                <Button variant="link">Podcasts</Button>
+                <Button variant="link">Connexion</Button>
+            </div>
             {/* Meaty part - Meteor effect */}
             <Meteors number={24} />
 
