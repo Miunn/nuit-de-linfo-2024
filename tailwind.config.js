@@ -70,7 +70,7 @@ export default {
     	},
     	animation: {
     		'meteor-effect': 'meteor 5s linear infinite',
-			'water-translate': 'waterTranslate 30s linear infinite'
+			'water-translate': 'waterTranslate 60s linear infinite'
     	},
     	keyframes: {
     		meteor: {

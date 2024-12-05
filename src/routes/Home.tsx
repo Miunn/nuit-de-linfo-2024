@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Meteors } from "@/components/ui/meteors";
-import RetroGrid from "@/components/ui/retro-grid";
 import { Toaster } from "@/components/ui/toaster";
+import Spline from '@splinetool/react-spline';
 
 export default function Home() {
     return (
@@ -22,7 +22,11 @@ export default function Home() {
                 <Button className="w-fit self-center p-6">Sauvez Océane</Button>
             </div>
 
-
+            <div className="absolute w-full h-full z-10" style={{
+                transform: "translateY(10%) translateX(30%)"
+            }}>
+                <Spline scene="https://prod.spline.design/GsOtxgXEI9a1QMY8/scene.splinecode" />
+            </div>
             <div className="absolute bottom-0 w-full h-96 overflow-x-hidden" style={{
                 filter: "hue-rotate(0deg) brightness(1) contrast(1)",
                 perspective: "34vh"
