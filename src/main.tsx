@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import Home from './routes/Home.tsx'
 import Login from './routes/Login.tsx'
 import NotFound from './routes/NotFound.tsx'
+import Game from './routes/Game.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="game" element={<Game />} />
     </Routes>
     </BrowserRouter>
   </StrictMode>,
