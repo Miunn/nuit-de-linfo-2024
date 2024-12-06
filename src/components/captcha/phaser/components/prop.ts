@@ -29,7 +29,8 @@ export default class Prop {
       "goose",
       "mk8",
       "wumpa",
-      "nukacola"
+      "nukacola",
+      "smash"
     ],
   }
 

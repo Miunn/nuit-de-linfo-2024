@@ -138,6 +138,7 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("mk8", "assets/mk8.png")
     this.load.image("cetus", "assets/cetus.webp")
     this.load.image("nukacola", "assets/nukacola.webp")
+    this.load.image("smash", "assets/smash.webp")
     console.log("preload called")
   }
 
