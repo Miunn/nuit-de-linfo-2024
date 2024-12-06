@@ -74,9 +74,11 @@ export default function Home() {
 
             </div>
 
-            <div className={`h-screen w-full flex items-center justify-center`}>
+            <div className={`h-screen w-full flex items-center z-50 justify-center`}>
             {gameStarted
-                ? <PhaserGame />
+                ? <div className="z-50">
+                    <PhaserGame />
+                </div>
                 : null
             }
             </div>
