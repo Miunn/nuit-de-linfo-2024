@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Game } from 'phaser';
 import { gameConfig } from '../../game/config';
 
-export const PhaserGame: React.FC = () => {
+export const PhaserGame = React.forwardRef<HTMLDivElement>((_props, ref) => {
   const gameRef = useRef<Game | null>(null);
 
   useEffect(() => {
@@ -18,5 +18,5 @@ export const PhaserGame: React.FC = () => {
     };
   }, []);
 
-  return <div id="game-container" className="rounded-lg overflow-hidden shadow-lg" />;
-};
+  return <div ref={ref} id="game-container" className="rounded-lg overflow-hidden shadow-xl max-w-3xl max-h-3xl" />;
+});

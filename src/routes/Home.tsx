@@ -1,41 +1,40 @@
+import { PhaserGame } from "@/components/Game/PhaserGame";
 import { Button } from "@/components/ui/button";
 import { Meteors } from "@/components/ui/meteors";
 import { Toaster } from "@/components/ui/toaster";
 import Spline from '@splinetool/react-spline';
-import { useNavigate } from "react-router";
+import { useState } from "react";
 
 export default function Home() {
-    const navigate = useNavigate();
+    const [gameStarted, setGameStarted] = useState(false);
 
-    const onClickConnexion = () => {
-        navigate("/login");
-    }
 
-    const onClickPodcasts = () => {
-        navigate("/podcasts");
+
+    const startGame = () => {
+        setGameStarted(true);
     }
 
     return (
         <div className="w-full min-h-screen" style={{
             background: "linear-gradient(115deg, #62cff4, #2c67f2)"
         }}>
-            <div className="space-x-6 absolute right-20 top-3">
-                <Button variant="link" onClick={onClickPodcasts}>Podcasts</Button>
-                <Button variant="link" onClick={onClickConnexion}>Connexion</Button>
-            </div>
             {/* Meaty part - Meteor effect */}
             <Meteors number={24} />
 
-            <div className="flex flex-col justify-center gap-10 z-30" style={{
-                position: "absolute",
-                top: "40%",
-                left: "50%",
-                transform: "translate(-50%, -50%)"
-            }}>
-                <h1 className="text-center font-semibold text-4xl leading-relaxed tracking-wider">Nos <i>océanes</i> sont malades.<br />Sauvons-les !</h1>
+            {gameStarted ?
+                null
+                : <>
+                    <div className="flex flex-col justify-center gap-10 z-30" style={{
+                        position: "absolute",
+                        top: "40%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)"
+                    }}>
+                        <h1 className="text-center font-semibold text-4xl leading-relaxed tracking-wider">Nos <i>océanes</i> sont malades.<br />Sauvons-les !</h1>
 
-                <Button className="w-fit self-center p-6">Sauvez Océane</Button>
-            </div>
+                        <Button className="w-fit self-center p-6" onClick={startGame}>Sauvez Océane</Button>
+                    </div>
+                </>}
 
             <div className="absolute w-full h-full z-10" style={{
                 transform: "translateY(10%) translateX(30%)"
@@ -60,6 +59,13 @@ export default function Home() {
                 }} />
             </div>
             {/*<RetroGrid angle={50} />*/}
+
+            {gameStarted
+                ? <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+                    <PhaserGame />
+                </div>
+                : null
+            }
 
             <Toaster />
         </div>
