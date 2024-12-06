@@ -30,7 +30,7 @@ export default function Home() {
     }, [moveLogo]);
 
     return (
-        <div className="absolute top-0 left-0 w-full min-h-screen" style={{
+        <div className="absolute top-0 left-0 w-full h-screen overflow-hidden" style={{
             background: "linear-gradient(115deg, #62cff4, #2c67f2)"
         }}>
             {/* Meaty part - Meteor effect */}
