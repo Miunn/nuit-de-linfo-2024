@@ -29,7 +29,7 @@ export default function PodcastCard({ title, description, imageUrl, videoUrl }: 
     }
 
     return (
-        <Card className="w-80 h-80 flex flex-col border-2 rounded-lg border-[#0463CA] ">
+        <Card className="w-80 flex flex-col border-2 rounded-lg border-[#0463CA] ">
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>
@@ -43,8 +43,8 @@ export default function PodcastCard({ title, description, imageUrl, videoUrl }: 
                     <DialogTrigger asChild>
                 <Button>Regarder</Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-3xl">
-                    <video src={videoUrl} controls className="w-full" />
+                <DialogContent className="max-w-3xl p-0 border-0">
+                    <video src={videoUrl} controls className="w-full sm:rounded-lg" />
                 </DialogContent>
                 </Dialog>
             </CardFooter>

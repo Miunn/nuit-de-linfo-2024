@@ -18,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="podcasts" element={<Podcasts />} />
           <Route path="login" element={<Login />} />
+          <Route path="predict" element={<Predict />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

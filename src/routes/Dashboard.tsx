@@ -14,7 +14,6 @@ import NumberTicker from "@/components/ui/number-ticker";
 // Remove the direct import of ErrorsHeader
 // import ErrorsHeader from "@/components/ErrorsHeader";
 
-// Lazy load ErrorsHeader
 const ErrorsHeader = lazy(() => import("@/components/ErrorsHeader"));
 
 const Dashboard: React.FC = () => {

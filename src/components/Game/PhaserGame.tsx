@@ -18,5 +18,5 @@ export const PhaserGame = React.forwardRef<HTMLDivElement>((_props, ref) => {
     };
   }, []);
 
-  return <div ref={ref} id="game-container" className="rounded-lg overflow-hidden z-50 shadow-xl w-[768px] h-[460px]" />;
+  return <div ref={ref} id="game-container" className="rounded-lg overflow-hidden shadow-xl w-[768px] h-[460px]" />;
 });

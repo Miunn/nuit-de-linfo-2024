@@ -35,11 +35,10 @@ export class Prompt extends GameObjects.Container {
       this.PROMPT_Y,
       '',
       {
-        fontSize: '24px',
-        fontFamily: 'Press Start 2P, monospace',
+        fontSize: 24,
         color: '#2A2A2A',
         align: 'center',
-        wordWrap: { width: this.PROMPT_WIDTH - 60 }
+        wordWrap: { width: this.PROMPT_WIDTH - 20 }
       }
     ).setOrigin(0.5);
 
