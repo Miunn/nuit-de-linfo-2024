@@ -84,7 +84,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-        redirectIfTokenValid(cookies.token, "/home", navigate);
+        redirectIfTokenValid(cookies.token, "/dashboard", navigate);
     }, [cookies.token]);
 
     return (
@@ -126,10 +126,12 @@ export default function Login() {
                             />
                         </CardContent>
                         <CardFooter className="flex-col space-y-4">
+                            <div className="w-[330px] h-[300px]">
                             <CaptchaComponent 
                                 ref={captchaRef} 
                                 currentActiveScene={null} 
                             />
+                            </div>
                             {isLoading
                             ? <Button disabled><Loader2 className="animate-spin mr-2" /> Se connecter</Button>
                             : <Button type="submit" disabled={!isCaptchaValid}>Se connecter</Button>}

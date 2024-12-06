@@ -7,10 +7,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { redirectIfTokenValid } from "@/lib/utils"; 
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { toast } from "@/hooks/use-toast";
+import { Copy } from "lucide-react";
 // import { motion } from "framer-motion";
-import {
-    IconClipboardCopy,
-} from "@tabler/icons-react";
+
 // Remove the direct import of ErrorsHeader
 // import ErrorsHeader from "@/components/ErrorsHeader";
 
@@ -49,7 +48,7 @@ const Dashboard: React.FC = () => {
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 cursor-pointer hover:shadow-lg transition"
-                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                        icon={<Copy className="h-4 w-4 text-neutral-500" />}
                     />
 
                     {/* BentoGridItem for Predict Page */}
@@ -62,7 +61,7 @@ const Dashboard: React.FC = () => {
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 cursor-pointer hover:shadow-lg transition"
-                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                        icon={<Copy className="h-4 w-4 text-neutral-500" />}
                     />
 
                     {/* Existing BentoGridItems */}
@@ -75,7 +74,7 @@ const Dashboard: React.FC = () => {
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
-                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                        icon={<Copy className="h-4 w-4 text-neutral-500" />}
                     />
 
                     <BentoGridItem
@@ -99,7 +98,7 @@ const Dashboard: React.FC = () => {
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
-                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                        icon={<Copy className="h-4 w-4 text-neutral-500" />}
                     />
                 </BentoGrid>
             </div>
