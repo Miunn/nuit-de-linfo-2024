@@ -16,7 +16,8 @@ export default class Prop {
       "gragas",
       "marto",
       "magikarp",
-      "jak_shark"
+      "jak_shark",
+      "cetus"
     ],
     bad: [
       "tetris",
@@ -25,7 +26,10 @@ export default class Prop {
       "goomba",
       "amogus",
       "ygo",
-      "goose"
+      "goose",
+      "mk8",
+      "wumpa",
+      "nukacola"
     ],
   }
 
