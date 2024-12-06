@@ -1,0 +1,99 @@
+// src/pages/Dashboard.tsx
+
+import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router"; 
+import { Toaster } from "@/components/ui/toaster";
+import { redirectIfTokenValid } from "@/lib/utils"; 
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
+import { toast } from "@/hooks/use-toast";
+// import { motion } from "framer-motion";
+import {
+    IconClipboardCopy,
+} from "@tabler/icons-react";
+import ErrorsHeader from "@/components/ErrorsHeader";
+
+const Dashboard: React.FC = () => {
+    const [cookies] = useCookies(["token"]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!cookies.token) {
+            toast({
+                title: "Non authentifié",
+                description: "Veuillez vous connecter pour accéder au tableau de bord.",
+                variant: "destructive",
+            });
+            navigate("/login");
+        } else {
+            redirectIfTokenValid(cookies.token, "/dashboard", navigate);
+        }
+    }, [cookies.token, navigate]);
+
+    return (
+        <div className="h-screen bg-background flex flex-col overflow-hidden">
+            <div className="flex-1 p-8 pt-6">
+                <BentoGrid className="w-full mx-auto md:auto-rows-[20rem] border border-neutral-200 dark:border-neutral-800 rounded-xl p-4">
+                    <BentoGridItem
+                        title="Gestion des utilisateurs"
+                        description="Gérez les utilisateurs de votre plateforme."
+                        header={
+                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800">
+                                {/* You can add content here if needed */}
+                            </div>
+                        }
+                        className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
+                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                    />
+                    <BentoGridItem
+                        // title="Actions par minute"
+                        description="Actions par minute"
+                        header={
+                            <div className="flex flex-1 w-full h-full min-h-[6rem] relative">
+                                <ErrorsHeader /> 
+                            </div>
+                        }
+                        className="md:col-span-2 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
+                        // icon={<IconFileBroken className="h-4 w-4 text-neutral-500" />}
+                    />
+                    <BentoGridItem
+                        title="Statistiques"
+                        description="Visualisez les statistiques."
+                        header={
+                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800">
+                                {/* You can add content here if needed */}
+                            </div>
+                        }
+                        className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
+                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                    />
+                    <BentoGridItem
+                        title="Rapports"
+                        description="Générez des rapports."
+                        header={
+                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900 dark:to-green-800">
+                                {/* You can add content here if needed */}
+                            </div>
+                        }
+                        className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
+                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                    />
+                    <BentoGridItem
+                        title="Configuration"
+                        description="Paramètres système."
+                        header={
+                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800">
+                                {/* You can add content here if needed */}
+                            </div>
+                        }
+                        className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
+                        icon={<IconClipboardCopy className="h-4 w-4 text-neutral-500" />}
+                    />
+                </BentoGrid>
+            </div>
+            <Toaster />
+        </div>
+    );
+};
+
+export default Dashboard;

@@ -6,6 +6,7 @@ import Home from './routes/Home.tsx'
 import Login from './routes/Login.tsx'
 import NotFound from './routes/NotFound.tsx'
 import Predict from './routes/Predict.tsx'
+import Dashboard from './routes/Dashboard.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="predict" element={<Predict />} />
+      <Route path="dashboard" element={<Dashboard />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     </BrowserRouter>
