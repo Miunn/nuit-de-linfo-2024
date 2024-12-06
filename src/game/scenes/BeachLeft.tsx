@@ -10,7 +10,7 @@ export class BeachLeft extends Scene {
   private isMoving = false;
   private targetX = 0;
   private itemsCollected = 0;
-  
+
   constructor() {
     super({ key: 'BeachLeft' });
   }
@@ -39,11 +39,12 @@ export class BeachLeft extends Scene {
     itemsConfig.forEach(config => {
       const item = this.add.sprite(config.x, config.y, 'item');
       item.setInteractive();
-      item.setData('message', config.message);
+      item.setData('messageL', config.message);
+      item.setData('sceneL', config.scene);
       item.on('pointerdown', (pointer: Input.Pointer) => {
       pointer.event.stopPropagation();
-      this.prompt.show(config.message);
-      this.scene.start(config.scene, {
+      this.prompt.show(item.getData('messageL'));
+      this.scene.start(item.getData('sceneL'), {
         items: this.itemsCollected
       });
       item.destroy();

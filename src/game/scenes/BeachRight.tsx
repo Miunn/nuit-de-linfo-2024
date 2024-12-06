@@ -37,14 +37,18 @@ export class BeachRight extends Scene {
     const itemsConfig = GAME_CONFIG.ITEMS.filter(item => item.location === "beach_right");
 
     itemsConfig.forEach(config => {
-      const item = this.add.sprite(config.x, config.y, 'item');
+      const item = this.add.sprite(config.x, config.y, 'item')
+        .setData('messageR', config.message)
+        .setData('sceneR', config.scene)
+      console.log('item', item);
       item.setInteractive();
-      item.setData('message', config.message);
+
       item.on('pointerdown', (pointer: Input.Pointer) => {
       pointer.event.stopPropagation();
-      this.prompt.show(config.message);
+      this.scene.start(item.getData('sceneR'), {
+        items: this.itemsCollected
+      });
       item.destroy();
-      this.itemsCollected++;
       });
       this.items.push(item);
     });
