@@ -2,6 +2,7 @@ import { Types } from 'phaser';
 import { BeachLeft } from './scenes/BeachLeft';
 import { GAME_CONFIG } from '../config/gameConfig';
 import { BeachRight } from './scenes/BeachRight';
+import { LiverGame } from './scenes/LiverGame';
 
 export const gameConfig: Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -26,5 +27,5 @@ export const gameConfig: Types.Core.GameConfig = {
       debug: false
     }
   },
-  scene: [BeachLeft, BeachRight]
+  scene: [BeachLeft, BeachRight, LiverGame]
 };

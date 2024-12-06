@@ -3,19 +3,20 @@ import { GAME_CONFIG } from '@/config/gameConfig';
 import { Scene, GameObjects, Input } from 'phaser';
 
 export class BeachLeft extends Scene {
+  private readonly SCENE_TRANSITION_THRESHOLD = 50;
   private player!: GameObjects.Sprite;
   private items: GameObjects.Sprite[] = [];
   private prompt!: Prompt;
   private isMoving = false;
   private targetX = 0;
   private itemsCollected = 0;
-
+  
   constructor() {
     super({ key: 'BeachLeft' });
   }
 
   preload() {
-    this.load.image('background', './assets/sunny_beach.png');
+    this.load.image('background_left', './assets/sunny_beach_left.png');
     this.load.spritesheet('character', 
       'https://labs.phaser.io/assets/sprites/dude.png',
       { frameWidth: 32, frameHeight: 48 }
@@ -27,7 +28,7 @@ export class BeachLeft extends Scene {
 
   create() {
 
-    this.add.image(GAME_CONFIG.SCENE_WIDTH / 2, GAME_CONFIG.SCENE_HEIGHT / 2, 'background')
+    this.add.image(GAME_CONFIG.SCENE_WIDTH / 2, GAME_CONFIG.SCENE_HEIGHT / 2, 'background_left')
     .setDisplaySize(GAME_CONFIG.SCENE_WIDTH, GAME_CONFIG.SCENE_HEIGHT);
 
     this.player = this.add.sprite(100, GAME_CONFIG.WALK_PATH_Y, 'character');
@@ -42,8 +43,10 @@ export class BeachLeft extends Scene {
       item.on('pointerdown', (pointer: Input.Pointer) => {
       pointer.event.stopPropagation();
       this.prompt.show(config.message);
+      this.scene.start(config.scene, {
+        items: this.itemsCollected
+      });
       item.destroy();
-      this.itemsCollected++;
       });
       this.items.push(item);
     });
@@ -76,7 +79,12 @@ export class BeachLeft extends Scene {
       const distance = this.targetX - this.player.x;
       const direction = Math.sign(distance);
       const speed = GAME_CONFIG.CHARACTER_SPEED;
-      
+
+      if (this.player.x >= GAME_CONFIG.SCENE_WIDTH - this.SCENE_TRANSITION_THRESHOLD) {
+        this.transitionToRightBeach();
+        return;
+      }
+
       if (Math.abs(distance) < 5) {
         this.player.x = this.targetX;
         this.isMoving = false;
@@ -87,5 +95,17 @@ export class BeachLeft extends Scene {
         this.player.play('walk', true);
       }
     }
+  }
+
+  private transitionToRightBeach() {
+    this.cameras.main.fadeOut(500);
+    this.time.delayedCall(500, () => {
+      this.scene.start('BeachRight', { 
+        x: this.player.x <= this.SCENE_TRANSITION_THRESHOLD ? 
+          GAME_CONFIG.SCENE_WIDTH - this.SCENE_TRANSITION_THRESHOLD : 
+          this.SCENE_TRANSITION_THRESHOLD,
+        itemsCollected: this.itemsCollected 
+      });
+    });
   }
 }
