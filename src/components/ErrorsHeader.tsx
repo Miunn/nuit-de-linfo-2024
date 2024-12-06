@@ -1,3 +1,5 @@
+// src/components/ErrorsHeader.tsx
+
 import React, { useState, useEffect } from "react";
 import { ResponsiveContainer, LineChart, XAxis, YAxis, Tooltip, Line } from "recharts";
 import { useCookies } from "react-cookie";
@@ -17,9 +19,12 @@ interface InteractionData {
 const ErrorsHeader: React.FC = () => {
   const [data, setData] = useState<InteractionData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
+    let isMounted = true; // To prevent state updates if component is unmounted
+
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -34,7 +39,7 @@ const ErrorsHeader: React.FC = () => {
         );
 
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`Erreur HTTP! statut: ${response.status}`);
         }
 
         const result: RawInteraction[] = await response.json();
@@ -60,19 +65,35 @@ const ErrorsHeader: React.FC = () => {
           count: aggregatedData[key],
         })).sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
 
-        setData(formattedData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        if (isMounted) {
+          setData(formattedData);
+        }
+      } catch (error: unknown) {
+        console.error("Erreur lors de la récupération des données:", error);
+        if (isMounted) {
+          setError(error instanceof Error ? error.message : "Erreur inconnue");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchData();
+
+    // Cleanup function to set isMounted to false if the component unmounts
+    return () => {
+      isMounted = false;
+    };
   }, [cookies.token]);
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return <div>Chargement des données...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">Erreur: {error}</div>;
   }
 
   return (
