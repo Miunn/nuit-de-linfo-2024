@@ -1,13 +1,14 @@
+import { Prompt } from '@/components/Game/Prompt';
 import { Scene, GameObjects, Input } from 'phaser';
 
 export class HeartGame extends Scene {
+    private prompt!: Prompt;
     private player!: GameObjects.Sprite;
     private boss!: GameObjects.Sprite;
     private bossHealth: number = 100;
     private healthBar!: GameObjects.Rectangle;
     private bullets!: GameObjects.Group;
     private background!: GameObjects.TileSprite;
-    private itemsCollected: number = 0;
     private moveDirection: number = 0; // 0=none, -1=up, 1=down
 
     constructor() {
@@ -70,6 +71,8 @@ export class HeartGame extends Scene {
         });
         
         this.player.play('surf');
+
+        this.prompt = new Prompt(this);
     }
 
     update() {
@@ -96,7 +99,10 @@ export class HeartGame extends Scene {
                 this.healthBar.width = (this.bossHealth / 100) * 200;
                 
                 if (this.bossHealth <= 0) {
-                    this.scene.start('GameEnd');
+                    this.prompt.show('Merci ! Je suis enfin libre !');
+                    this.time.delayedCall(2000, () => {
+                        this.scene.start("BeachLeft", { id: 3 });
+                    });
                 }
             }
             return true;

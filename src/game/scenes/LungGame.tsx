@@ -1,6 +1,9 @@
+import { Prompt } from "@/components/Game/Prompt"
 import { GAME_CONFIG } from "@/config/gameConfig"
 
 export default class LungGame extends Phaser.Scene {
+  prompt!: Prompt;
+
   last: number = Date.now()
 
   points = 0
@@ -28,8 +31,8 @@ export default class LungGame extends Phaser.Scene {
     this.add.image(GAME_CONFIG.SCENE_WIDTH / 2, GAME_CONFIG.SCENE_HEIGHT / 2, "mouse_click").setScale(0.4, 0.4)
     this.scoreboard = this.add.text(GAME_CONFIG.SCENE_WIDTH / 2, 100, "" + this.points)
 
-
     this.input.on("pointerdown", this.tempo, this)
+    this.prompt = new Prompt(this)
   }
 
   generateNewCircle() {
@@ -75,8 +78,10 @@ export default class LungGame extends Phaser.Scene {
     }
 
     if (this.points > 1000) {
-      //TODO GET OUT
-      this.scene.start("BeachLeft")
+      this.prompt.show('Merci ! Je peux enfin respirer !');
+      this.time.delayedCall(2000, () => {
+          this.scene.start("BeachLeft", { id: 2 });
+      });
     }
   }
 

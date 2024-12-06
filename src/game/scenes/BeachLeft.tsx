@@ -3,13 +3,14 @@ import { GAME_CONFIG } from '@/config/gameConfig';
 import { Scene, GameObjects, Input } from 'phaser';
 
 export class BeachLeft extends Scene {
-  private readonly SCENE_TRANSITION_THRESHOLD = 50;
+  private readonly SCENE_TRANSITION_THRESHOLD = 70;
   private player!: GameObjects.Sprite;
   private items: GameObjects.Sprite[] = [];
   private prompt!: Prompt;
   private isMoving = false;
   private targetX = 0;
-  private itemsCollected = 0;
+  private gameData: number[] = [];
+  private gameEnded = false;
 
   constructor() {
     super({ key: 'BeachLeft' });
@@ -21,9 +22,14 @@ export class BeachLeft extends Scene {
       'https://labs.phaser.io/assets/sprites/dude.png',
       { frameWidth: 32, frameHeight: 48 }
     );
-    this.load.image('item', 
-      'https://labs.phaser.io/assets/sprites/star.png'
-    );
+    this.load.image('liver','./assets/liver.png');
+    this.load.image('lung','./assets/breathe.webp');
+    this.load.image('heart','./assets/heart.png');
+    this.load.image('sign_right', './assets/arrow_right.png');
+  }
+
+  init(data?: { id: number }) {
+    if(data) {this.gameData.push(data.id);}
   }
 
   create() {
@@ -31,16 +37,22 @@ export class BeachLeft extends Scene {
     this.add.image(GAME_CONFIG.SCENE_WIDTH / 2, GAME_CONFIG.SCENE_HEIGHT / 2, 'background_left')
     .setDisplaySize(GAME_CONFIG.SCENE_WIDTH, GAME_CONFIG.SCENE_HEIGHT);
 
-    this.player = this.add.sprite(100, GAME_CONFIG.WALK_PATH_Y, 'character');
-    this.player.setScale(2.5);
+    this.player = this.add.sprite(100, GAME_CONFIG.WALK_PATH_Y, 'character')
+    .setScale(2.5)
+    .setDepth(2);
 
-    const itemsConfig = GAME_CONFIG.ITEMS.filter(item => item.location === "beach_left");
+    this.add.image(GAME_CONFIG.SCENE_WIDTH - 100, GAME_CONFIG.WALK_PATH_Y, 'sign_right').setDisplaySize(250, 250).setDepth(1);
+
+    const itemsConfig = GAME_CONFIG.ITEMS.filter(item => 
+      item.location === "beach_left" && !this.gameData.includes(item.id)
+    );
 
     itemsConfig.forEach(config => {
-      const item = this.add.sprite(config.x, config.y, 'item');
+      const item = this.add.sprite(config.x, config.y, config.icon)
+        .setData('message', config.message)
+        .setData('scene', config.scene)
+        .setDisplaySize(80, 80);
       item.setInteractive();
-      item.setData('message', config.message);
-      item.setData('scene', config.scene);
       item.on('pointerdown', (pointer: Input.Pointer) => {
       pointer.event.stopPropagation();
       this.prompt.show(item.getData('message'));
@@ -97,6 +109,12 @@ export class BeachLeft extends Scene {
         this.player.play('walk', true);
       }
     }
+
+    if (this.gameData.includes(1) && this.gameData.includes(2) && this.gameData.includes(3) && !this.gameEnded) {
+      //TODO: CONFETTI
+      this.gameEnded = true;
+      this.prompt.show('Félicitations ! Vous avez terminé le jeu !');
+    }
   }
 
   private transitionToRightBeach() {
@@ -106,7 +124,7 @@ export class BeachLeft extends Scene {
         x: this.player.x <= this.SCENE_TRANSITION_THRESHOLD ? 
           GAME_CONFIG.SCENE_WIDTH - this.SCENE_TRANSITION_THRESHOLD : 
           this.SCENE_TRANSITION_THRESHOLD,
-        itemsCollected: this.itemsCollected 
+          id: this.gameData
       });
     });
   }

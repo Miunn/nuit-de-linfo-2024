@@ -3,7 +3,6 @@ import { GAME_CONFIG } from '@/config/gameConfig';
 import { Scene, GameObjects, Input } from 'phaser';
 
 export class LiverGame extends Scene {
-    private itemsCollected!: number;
     private prompt!: Prompt;
     private goodObjectsCount = 6;
     private badObjectsCount = 10;
@@ -16,12 +15,12 @@ export class LiverGame extends Scene {
     }
 
     preload() {
-        this.load.image('liver_background', 'assets/fish_background.png');
-        this.load.image('good_object', 'assets/good_object.png');
-        this.load.image('good_object2', 'assets/good_object2.png');
+        this.load.image('liver_background', './assets/fish_background.png');
+        this.load.image('good_object', './assets/good_object.png');
+        this.load.image('good_object2', './assets/good_object2.webp');
         this.load.image('bad_object', 'assets/bad_object.png');
-        this.load.image('bad_object2', 'assets/bad_object2.png');
-        this.load.image('coral', 'assets/coral.png');
+        this.load.image('bad_object2', './assets/bad_object2.png');
+        this.load.image('coral', './assets/coral.png');
 
     }
 
@@ -37,7 +36,7 @@ export class LiverGame extends Scene {
                 Phaser.Math.Between(100, GAME_CONFIG.SCENE_WIDTH - 100),
                 Phaser.Math.Between(100, GAME_CONFIG.SCENE_HEIGHT - 100),
                 randomGoodTexture
-            ).setDisplaySize(50, 50);
+            ).setDisplaySize(90, 90);
             goodObject.setData('type', 'good');
             goodObject.setInteractive();
             goodObject.on('pointerdown', (pointer: Input.Pointer) => {
@@ -52,7 +51,7 @@ export class LiverGame extends Scene {
                 Phaser.Math.Between(100, GAME_CONFIG.SCENE_WIDTH - 100),
                 Phaser.Math.Between(100, GAME_CONFIG.SCENE_HEIGHT - 100),
                 randomBadTexture
-            ).setDisplaySize(50, 50);
+            ).setDisplaySize(90, 90);
             badObject.setData('type', 'bad');
             badObject.setInteractive();
             badObject.on('pointerdown', (pointer: Input.Pointer) => {
@@ -62,22 +61,18 @@ export class LiverGame extends Scene {
                     Phaser.Math.Between(100, GAME_CONFIG.SCENE_WIDTH - 100),
                     GAME_CONFIG.SCENE_HEIGHT - 100,
                     'coral'
-                )
+                ).setDisplaySize(80, 100);
             });
         }
     }
 
     update() {
         if (this.badObjectsRemoved === this.badObjectsCount) {
-            this.prompt.show('Vous avez éliminé toutes les cellules malignes !');
-            //TODO: add confetti animation
-            this.prompt.show('Bravo ! Vous avez gagné un foie !');
-            this.input.once('pointerdown', () => {
-                this.scene.start('BeachLeft', { 
-                    itemsCollected: this.itemsCollected + 1
-                });
-            }
-        , this);}
+            this.prompt.show('Merci ! Vous avez soigné mon foie !');
+            this.time.delayedCall(2000, () => {
+                this.scene.start("BeachLeft", { id: 1 });
+            });
+        }
     }
 
     private removeObject(object: GameObjects.Sprite) {
@@ -92,7 +87,7 @@ export class LiverGame extends Scene {
                 Phaser.Math.Between(100, GAME_CONFIG.SCENE_WIDTH - 100),
                 Phaser.Math.Between(100, GAME_CONFIG.SCENE_HEIGHT - 100),
                 randomGoodTexture
-            ).setDisplaySize(50, 50);
+            ).setDisplaySize(90, 90);
             goodObject.setData('type', 'good');
             goodObject.setInteractive();
             goodObject.on('pointerdown', (pointer: Input.Pointer) => {
