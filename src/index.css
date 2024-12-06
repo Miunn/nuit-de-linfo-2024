@@ -15,6 +15,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.image-container {
+  position: relative;
+  top: -80px;
+  left: -20px;
+  width: 2%;
+  height: 2%;
+  align-self: center;
+}
+
 body {
   margin: 0;
   padding: 0;

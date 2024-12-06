@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { color } from "framer-motion";
 import { Outlet, useLocation, useNavigate } from "react-router";
 
 export interface LayoutProps {
@@ -29,9 +30,9 @@ export function Layout() {
 
                 <ul className=" w-full flex justify-end py-5 pr-10 bg-transparent">
                     <li>
-                        <Button variant="link" onClick={onClickPodcasts}>Podcasts</Button></li>
+                        <Button variant="link" onClick={onClickPodcasts} style={{color: "white"}}>Podcasts</Button></li>
                     <li>
-                        <Button variant="link" onClick={onClickConnexion}>Connexion</Button>
+                        <Button variant="link" onClick={onClickConnexion} style={{color: "white"}}>Connexion</Button>
                     </li>
                 </ul>
             </header>

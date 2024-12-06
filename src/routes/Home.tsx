@@ -31,8 +31,8 @@ export default function Home() {
                         transform: "translate(-50%, -50%)"
                     }}>
                         <h1 className="text-center font-semibold text-4xl leading-relaxed tracking-wider">Nos <i>océanes</i> sont malades.<br />Sauvons-les !</h1>
-
                         <Button className="w-fit self-center p-6" onClick={startGame}>Sauvez Océane</Button>
+                        <img className="image-container" src="/src/assets/lyreco-logo.png" alt="lyrico-logo"/>
                     </div>
                 </>}
 
