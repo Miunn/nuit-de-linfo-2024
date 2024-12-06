@@ -35,6 +35,17 @@ export default function Login() {
         // Listen for captcha validation result
         const handleValidation = (valid: boolean) => {
             setIsCaptchaValid(valid);
+            fetch(`${import.meta.env.VITE_STATS_REMOTE_URL}/interactions/submit`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${cookies.token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "action": "captcha",
+                    "valid": valid
+                })
+            });
         };
 
         EventBus.on("valid", handleValidation);
@@ -75,16 +86,26 @@ export default function Login() {
                 return;
             }
 
-            Promise.resolve(
-                setCookie('token', data.access_token, { path: "/" })
-            ).then(() => {
-                navigate("/");
-            });
+        Promise.all([
+            setCookie('token', data.access_token, { path: "/" }),
+            fetch(`${import.meta.env.VITE_STATS_REMOTE_URL}/interactions/submit`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${data.access_token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "action": "login"
+                })
+            })
+        ]).then(() => {
+            navigate("/");
+        });
         });
     }
 
     useEffect(() => {
-        redirectIfTokenValid(cookies.token, "/home", navigate);
+        redirectIfTokenValid(cookies.token, "/dashboard", navigate);
     }, [cookies.token]);
 
     return (
@@ -126,10 +147,12 @@ export default function Login() {
                             />
                         </CardContent>
                         <CardFooter className="flex-col space-y-4">
+                            <div className="w-[330px] h-[300px]">
                             <CaptchaComponent 
                                 ref={captchaRef} 
                                 currentActiveScene={null} 
                             />
+                            </div>
                             {isLoading
                             ? <Button disabled><Loader2 className="animate-spin mr-2" /> Se connecter</Button>
                             : <Button type="submit" disabled={!isCaptchaValid}>Se connecter</Button>}
