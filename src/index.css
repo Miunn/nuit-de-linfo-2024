@@ -89,3 +89,23 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.custom-shape-divider-bottom-1733453725 {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1733453725 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+}
+
+.custom-shape-divider-bottom-1733453725 .shape-fill {
+  fill: #0463CA;
+}
