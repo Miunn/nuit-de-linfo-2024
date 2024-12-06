@@ -6,12 +6,12 @@ import { BeachRight } from './scenes/BeachRight';
 export const gameConfig: Types.Core.GameConfig = {
   type: Phaser.AUTO,
   parent: 'game-container',
-  width: GAME_CONFIG.SCENE_WIDTH,
-  height: GAME_CONFIG.SCENE_HEIGHT,
+  //width: GAME_CONFIG.SCENE_WIDTH,
+  //height: GAME_CONFIG.SCENE_HEIGHT,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    parent: 'game-container',
+    //parent: 'game-container',
     width: GAME_CONFIG.SCENE_WIDTH,
     height: GAME_CONFIG.SCENE_HEIGHT,
     min: {
