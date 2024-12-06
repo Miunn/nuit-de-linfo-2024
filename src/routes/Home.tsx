@@ -49,6 +49,7 @@ export default function Home() {
                         <Button className="w-fit self-center p-6" onClick={startGame}>Sauvez Océane</Button>
                         
                         {/* Hidden moving Lyreco Logo */} 
+                        <a href="https://cat-bounce.com/">
                         <img style={{
                            position: "absolute",
                            top: y,
@@ -56,7 +57,7 @@ export default function Home() {
                            width: "10%",
                            height: "10%",
                         }} 
-                        src="/src/assets/lyreco-logo.png" alt="lyrico-logo"/>
+                        src="/src/assets/lyreco-logo.png" alt="lyrico-logo"/></a>
 
                     </div>
                 </>}
