@@ -15,13 +15,19 @@ export class BeachLeft extends Scene {
     super({ key: 'BeachLeft' });
   }
 
+  init(data: number | undefined) {
+    if (data) {
+
+    }
+  }
+
   preload() {
     this.load.image('background_left', './assets/sunny_beach_left.png');
-    this.load.spritesheet('character', 
+    this.load.spritesheet('character',
       'https://labs.phaser.io/assets/sprites/dude.png',
       { frameWidth: 32, frameHeight: 48 }
     );
-    this.load.image('item', 
+    this.load.image('item',
       'https://labs.phaser.io/assets/sprites/star.png'
     );
   }
@@ -29,7 +35,7 @@ export class BeachLeft extends Scene {
   create() {
 
     this.add.image(GAME_CONFIG.SCENE_WIDTH / 2, GAME_CONFIG.SCENE_HEIGHT / 2, 'background_left')
-    .setDisplaySize(GAME_CONFIG.SCENE_WIDTH, GAME_CONFIG.SCENE_HEIGHT);
+      .setDisplaySize(GAME_CONFIG.SCENE_WIDTH, GAME_CONFIG.SCENE_HEIGHT);
 
     this.player = this.add.sprite(100, GAME_CONFIG.WALK_PATH_Y, 'character');
     this.player.setScale(2.5);
@@ -42,12 +48,12 @@ export class BeachLeft extends Scene {
       item.setData('messageL', config.message);
       item.setData('sceneL', config.scene);
       item.on('pointerdown', (pointer: Input.Pointer) => {
-      pointer.event.stopPropagation();
-      this.prompt.show(item.getData('messageL'));
-      this.scene.start(item.getData('sceneL'), {
-        items: this.itemsCollected
-      });
-      item.destroy();
+        pointer.event.stopPropagation();
+        this.prompt.show(item.getData('messageL'));
+        this.scene.start(item.getData('sceneL'), {
+          items: this.itemsCollected
+        });
+        item.destroy();
       });
       this.items.push(item);
     });
@@ -63,7 +69,7 @@ export class BeachLeft extends Scene {
 
     this.input.on('pointerdown', (pointer: Input.Pointer) => {
       if (pointer.event.target !== this.game.canvas) return;
-      
+
       this.targetX = pointer.x;
       this.isMoving = true;
 
@@ -101,11 +107,11 @@ export class BeachLeft extends Scene {
   private transitionToRightBeach() {
     this.cameras.main.fadeOut(500);
     this.time.delayedCall(500, () => {
-      this.scene.start('BeachRight', { 
-        x: this.player.x <= this.SCENE_TRANSITION_THRESHOLD ? 
-          GAME_CONFIG.SCENE_WIDTH - this.SCENE_TRANSITION_THRESHOLD : 
+      this.scene.start('BeachRight', {
+        x: this.player.x <= this.SCENE_TRANSITION_THRESHOLD ?
+          GAME_CONFIG.SCENE_WIDTH - this.SCENE_TRANSITION_THRESHOLD :
           this.SCENE_TRANSITION_THRESHOLD,
-        itemsCollected: this.itemsCollected 
+        itemsCollected: this.itemsCollected
       });
     });
   }
