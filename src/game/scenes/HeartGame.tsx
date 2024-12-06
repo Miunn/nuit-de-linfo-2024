@@ -10,6 +10,10 @@ export class HeartGame extends Scene {
     private bullets!: GameObjects.Group;
     private background!: GameObjects.TileSprite;
     private moveDirection: number = 0; // 0=none, -1=up, 1=down
+    private obstacles!: Phaser.GameObjects.Group;
+    private isPlayerStunned: boolean = false;
+    private nextObstacleTime: number = 0;
+    private obstacleDelay: number = 2000; // 2 seconds between throws
 
     constructor() {
         super({ key: 'HeartGame' });
@@ -45,6 +49,8 @@ export class HeartGame extends Scene {
             runChildUpdate: true
         });
 
+        this.obstacles = this.add.group();
+
         this.input.on('pointerdown', (pointer: Input.Pointer) => {
             const screenMidpoint = (this.game.config.height as number) / 2;
 
@@ -75,14 +81,16 @@ export class HeartGame extends Scene {
         this.prompt = new Prompt(this);
     }
 
-    update() {
+    update(time: number) {
         this.background.tilePositionX += 2;
     
-        if (this.moveDirection === -1 && this.player.y > 50) {
-            this.player.y -= 4;
-        }
-        if (this.moveDirection === 1 && this.player.y < 550) {
-            this.player.y += 4;
+        if (!this.isPlayerStunned) {
+            if (this.moveDirection === -1 && this.player.y > 50) {
+                this.player.y -= 4;
+            }
+            if (this.moveDirection === 1 && this.player.y < 550) {
+                this.player.y += 4;
+            }
         }
     
         this.boss.y = 300 + Math.sin(this.time.now / 1000) * 100;
@@ -107,6 +115,26 @@ export class HeartGame extends Scene {
             }
             return true;
         });
+
+        if (time > this.nextObstacleTime) {
+            this.throwObstacle();
+            this.nextObstacleTime = time + this.obstacleDelay;
+        }
+
+        this.obstacles.children.each((obstacle) => {
+            if (obstacle.active && Phaser.Geom.Intersects.RectangleToRectangle(
+                (obstacle as GameObjects.Rectangle).getBounds(),
+                this.player.getBounds()
+            )) {
+                obstacle.destroy();
+                this.stunPlayer();
+            }
+            
+            if ((obstacle as GameObjects.Rectangle).x < -50) {
+                obstacle.destroy();
+            }
+            return true;
+        });
     }
 
     private shootBullet() {
@@ -124,6 +152,38 @@ export class HeartGame extends Scene {
 
         bullet.update = function() {
             if (bullet.x > 800) bullet.destroy();
+        }
+    }
+
+    private throwObstacle() {
+        const obstacle = this.add.rectangle(
+            this.boss.x - 20,
+            this.boss.y,
+            15,
+            15,
+            0x00ff00
+        );
+        this.obstacles.add(obstacle);
+        this.physics.world.enable(obstacle);
+        
+        const angle = Phaser.Math.Angle.Between(
+            this.boss.x, this.boss.y,
+            this.player.x, this.player.y
+        );
+        
+        const speed = 200;
+        this.physics.velocityFromRotation(angle, speed, (obstacle.body as Phaser.Physics.Arcade.Body).velocity);
+    }
+
+    private stunPlayer() {
+        if (!this.isPlayerStunned) {
+            this.isPlayerStunned = true;
+            this.player.setTint(0xff0000);
+            
+            this.time.delayedCall(1500, () => {
+                this.isPlayerStunned = false;
+                this.player.clearTint();
+            });
         }
     }
 }
