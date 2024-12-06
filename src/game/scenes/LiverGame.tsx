@@ -5,8 +5,8 @@ import { Scene, GameObjects, Input } from 'phaser';
 export class LiverGame extends Scene {
     private itemsCollected!: number;
     private prompt!: Prompt;
-    private goodObjectsCount = 5;
-    private badObjectsCount = 5;
+    private goodObjectsCount = 6;
+    private badObjectsCount = 10;
     private badObjectsRemoved = 0;
     private goodTextures = ['good_object', 'good_object2'];
     private badTextures = ['bad_object', 'bad_object2'];
@@ -21,6 +21,7 @@ export class LiverGame extends Scene {
         this.load.image('good_object2', 'assets/good_object2.png');
         this.load.image('bad_object', 'assets/bad_object.png');
         this.load.image('bad_object2', 'assets/bad_object2.png');
+        this.load.image('coral', 'assets/coral.png');
 
     }
 
@@ -57,6 +58,11 @@ export class LiverGame extends Scene {
             badObject.on('pointerdown', (pointer: Input.Pointer) => {
                 pointer.event.stopPropagation();
                 this.removeObject(badObject);
+                this.add.sprite(
+                    Phaser.Math.Between(100, GAME_CONFIG.SCENE_WIDTH - 100),
+                    GAME_CONFIG.SCENE_HEIGHT - 100,
+                    'coral'
+                )
             });
         }
     }

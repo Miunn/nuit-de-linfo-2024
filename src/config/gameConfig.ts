@@ -6,9 +6,9 @@ export const GAME_CONFIG = {
     INITIAL_X: 100,
     ITEMS: [
       { id: 1, location: "beach_left", x: 260, y: 380, message: "Vous plongez pour sauver l'écosystème", scene: "LiverGame"},
-      { id: 2, location: "beach_left", x: 740, y: 380, message: "BBBBBBBB", scene: "LiverGame" },
-      { id: 3, location: "beach_right", x: 600, y: 200, message: "CCCCCCCC", scene: "LiverGame" },
-      { id: 3, location: "beach_right", x: 500, y: 100, message: "DDDDDDDD", scene: "LiverGame" }
+      { id: 2, location: "beach_left", x: 740, y: 380, message: "Vous Plongez pour réanimer des poumons", scene: "LungGame" },
+      { id: 3, location: "beach_right", x: 600, y: 200, message: "CCCCCCCC", scene: "ImmuneGame" },
+      { id: 3, location: "beach_right", x: 500, y: 100, message: "DDDDDDDD", scene: "HeartGame" }
     ],
     INVENTORY: [
       { id: 1, name: "Foie", description: "Un objet mystérieux", obtained: false },
