@@ -113,7 +113,7 @@ const BadLogin: React.FC = () => {
                                 setFullNameZIndex(2); 
                                 setPasswordZIndex(1); 
                             }}
-                            error={errors.username?.message}
+                            // error={errors.username?.message}
                         />
                     )}
                 />
@@ -135,7 +135,7 @@ const BadLogin: React.FC = () => {
                                 setFullNameZIndex(1); 
                             }}
                             type="password"
-                            error={errors.password?.message}
+                            // error={errors.password?.message}
                         />
                     )}
                 />
