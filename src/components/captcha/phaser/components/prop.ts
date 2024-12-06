@@ -13,11 +13,19 @@ export default class Prop {
     good: [
       "mcfish",
       "flounder",
-      "gragas"
+      "gragas",
+      "marto",
+      "magikarp",
+      "jak_shark"
     ],
     bad: [
       "tetris",
       "civ6oil",
+      "inserter",
+      "goomba",
+      "amogus",
+      "ygo",
+      "goose"
     ],
   }
 

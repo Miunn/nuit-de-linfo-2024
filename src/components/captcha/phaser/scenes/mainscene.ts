@@ -126,6 +126,14 @@ export default class MainScene extends Phaser.Scene {
     this.load.image("gragas", "assets/gragas.webp")
     this.load.image("bg", "assets/bg_cap.png")
     this.load.image("bin", "assets/bin.png")
+    this.load.image("marto", "assets/matro.webp")
+    this.load.image("inserter", "assets/inserter.webp")
+    this.load.image("goomba", "assets/goomba.webp")
+    this.load.image("ygo", "assets/ygo.webp")
+    this.load.image("magikarp", "assets/magikarp.webp")
+    this.load.image("amogus", "assets/amogus.webp")
+    this.load.image("jak_shark", "assets/jak_shark.webp")
+    this.load.image("goose", "assets/goose.webp")
     console.log("preload called")
   }
 
