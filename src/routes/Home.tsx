@@ -3,16 +3,31 @@ import { Button } from "@/components/ui/button";
 import { Meteors } from "@/components/ui/meteors";
 import { Toaster } from "@/components/ui/toaster";
 import Spline from '@splinetool/react-spline';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
     const [gameStarted, setGameStarted] = useState(false);
 
-
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
 
     const startGame = () => {
         setGameStarted(true);
     }
+
+    const moveLogo = () => {
+        setX(Math.random() * window.innerWidth);
+        setY(Math.random() * window.innerHeight);
+        console.log(x, y);
+    }
+
+    useEffect(() => {
+        const intervalle = setInterval(() => {
+            moveLogo();
+        }, 1000);
+
+        return () => clearInterval(intervalle);
+    }, [moveLogo]);
 
     return (
         <div className="absolute top-0 left-0 w-full min-h-screen" style={{
@@ -32,7 +47,17 @@ export default function Home() {
                     }}>
                         <h1 className="text-center font-semibold text-4xl leading-relaxed tracking-wider">Nos <i>océanes</i> sont malades.<br />Sauvons-les !</h1>
                         <Button className="w-fit self-center p-6" onClick={startGame}>Sauvez Océane</Button>
-                        <img className="image-container" src="/src/assets/lyreco-logo.png" alt="lyrico-logo"/>
+                        
+                        {/* Hidden moving Lyreco Logo */} 
+                        <img style={{
+                           position: "absolute",
+                           top: y,
+                           left: x,
+                           width: "10%",
+                           height: "10%",
+                        }} 
+                        src="/src/assets/lyreco-logo.png" alt="lyrico-logo"/>
+
                     </div>
                 </>}
 
@@ -58,6 +83,8 @@ export default function Home() {
 
                 }} />
             </div>
+
+
             {/*<RetroGrid angle={50} />*/}
 
             {gameStarted
