@@ -9,7 +9,7 @@ export default class MainScene extends Phaser.Scene {
   last: number = Date.now()
   static timeout = 4000
 
-  timing = MainScene.timeout
+  timing = MainScene.timeout * 2
 
   score: number = 0
 
@@ -58,6 +58,10 @@ export default class MainScene extends Phaser.Scene {
   }
 
   update() {
+    if (this.prop_array.length === 0) {
+      this.goOn()
+    }
+
     let now = Date.now()
     let delta = now - this.last
     this.last = now
@@ -79,7 +83,20 @@ export default class MainScene extends Phaser.Scene {
     this.positons.push({ timestamp: now, x: pos.x, y: pos.y })
 
     if (this.score >= 10) {
+      this.score = 0
       EventBus.emit("result", this)
+      while (this.prop_array.length > 0) {
+        this.prop_array.pop()?.it?.destroy()
+      }
+      this.timing = MainScene.timeout * 2
+      this.scene.start("END")
+    }
+    if (this.score <= -5) {
+      this.score = 0
+      while (this.prop_array.length > 0) {
+        this.prop_array.pop()?.it?.destroy()
+      }
+      this.timing = MainScene.timeout * 2
       this.scene.start("END")
     }
 
@@ -149,8 +166,9 @@ export default class MainScene extends Phaser.Scene {
   public goOn() {
     this.prop_array.shift()
 
-    this.prop_array.push(new Prop(Math.random() < 0.5))
-
+    while (this.prop_array.length < 5) {
+      this.prop_array.push(new Prop(Math.random() < 0.5))
+    }
     for (let i = 0; i < this.prop_array.length; i++) {
       this.prop_array[i].move(this, 325, 600 - (Math.sqrt(i + 1) * 175), 1 / Math.sqrt(i + 1), 9 - i, i === 0)
     }

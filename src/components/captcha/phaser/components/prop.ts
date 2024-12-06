@@ -60,7 +60,7 @@ export default class Prop {
 
   public update(first: boolean = false, t: number) {
     if (this.it !== null) {
-      if (this.it.data.values.dragged) {
+      if (!this.it.data || this.it.data.values.dragged) {
         return
       }
       if (this.aimingPos !== null) {

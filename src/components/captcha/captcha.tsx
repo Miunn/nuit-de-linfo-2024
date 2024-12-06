@@ -30,12 +30,19 @@ export const CaptchaComponent = forwardRef<IGame, IArg>(function GameComponent({
             "client_id": cid
           },), method: "POST", headers: { "Content-Type": "application/json" }
         }).then(async (data: Response) => {
-          const token: string = (await data.json())["recaptcha_token"]
+          var token: string = (await data.json())["recaptcha_token"]
           EventBus.on("result", (data: MainScene) => {
             const data_str = JSON.stringify({ "mouse_data": { "mouse_movements": data.positons }, "recaptcha_token": token })
             fetch(ip + "/analyze-mouse", { body: data_str, method: "POST", headers: { "Content-Type": "application/json" } }).then(async (resp: Response) => {
               const valid = (await resp.json())["is_human"]
               EventBus.emit("valid", valid)
+              if (!valid) {
+                token = (await (await fetch(ip + "/generate-token", {
+                  body: JSON.stringify({
+                    "client_id": cid
+                  },), method: "POST", headers: { "Content-Type": "application/json" }
+                })).json())["recaptcha_token"]
+              }
             })
           })
           EventBus.emit("rdy")

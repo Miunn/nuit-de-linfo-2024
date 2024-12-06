@@ -17,7 +17,7 @@ export default class GameCore extends Phaser.Game {
 
     backgroundColor: '#000000',
     scene: [
-      //WaitC,
+      WaitC,
       MainScene,
       End
     ]
@@ -27,6 +27,7 @@ export default class GameCore extends Phaser.Game {
 
   constructor(parent: string) {
     super({ ...GameCore.default_conf, parent })
+    //this.scene.start("END")
   }
 
   /*public game() {
