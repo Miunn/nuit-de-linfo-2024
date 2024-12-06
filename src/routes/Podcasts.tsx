@@ -1,4 +1,5 @@
 import PodcastCard from "@/components/PodcastCard";
+import { Fragment } from "react";
 
 export function Podcasts() {
 
@@ -20,18 +21,19 @@ export function Podcasts() {
 
     return (
         <div>
-            <div className="grid" style={{
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+            <div className="grid p-10" style={{
+                gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
                 gap: "1rem",
-                padding: "1rem"
             }}>
-            {
-                getPodcasts().map(podcast => {
-                    return (
-                        <PodcastCard title={podcast.title} description={podcast.description} imageUrl={podcast.imageUrl} />
-                    )
-                })
-            }
+                {
+                    getPodcasts().map((podcast, index) => {
+                        return (
+                            <Fragment key={`${index}-${podcast.title}`}>
+                                <PodcastCard title={podcast.title} description={podcast.description} imageUrl={podcast.imageUrl} videoUrl={"/video.mp4"} />
+                            </Fragment>
+                        )
+                    })
+                }
             </div>
         </div>
     )
