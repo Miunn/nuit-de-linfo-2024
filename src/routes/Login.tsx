@@ -8,16 +8,20 @@ import { LOGIN_SCHEMA } from "@/lib/forms";
 import { redirectIfTokenValid } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { z } from "zod";
+import { CaptchaComponent } from '@/components/captcha/captcha';
+import { EventBus } from '@/components/captcha/phaser/eventbus';
 
 export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
+    const [isCaptchaValid, setIsCaptchaValid] = useState(false);
     const [cookies, setCookie] = useCookies(["token"]);
     const navigate = useNavigate();
+    const captchaRef = useRef(null);
 
     const form = useForm<z.infer<typeof LOGIN_SCHEMA>>({
         resolver: zodResolver(LOGIN_SCHEMA),
@@ -27,7 +31,30 @@ export default function Login() {
         }
     });
 
+    useEffect(() => {
+        // Listen for captcha validation result
+        const handleValidation = (valid: boolean) => {
+            setIsCaptchaValid(valid);
+        };
+
+        EventBus.on("valid", handleValidation);
+
+        return () => {
+            EventBus.off("valid", handleValidation);
+        };
+    }, []);
+
     function onSubmit(data: z.infer<typeof LOGIN_SCHEMA>) {
+        // Only proceed if captcha is valid
+        if (!isCaptchaValid) {
+            toast({
+                title: "Erreur",
+                description: "Veuillez compléter le captcha",
+                variant: "destructive"
+            });
+            return;
+        }
+
         setIsLoading(true);
         fetch(`${import.meta.env.VITE_STATS_REMOTE_URL}/login`, {
             method: "POST",
@@ -44,7 +71,7 @@ export default function Login() {
                     title: "Erreur",
                     description: "Nom d'utilisateur ou mot de passe incorrect",
                     variant: "destructive"
-                })
+                });
                 return;
             }
 
@@ -61,8 +88,7 @@ export default function Login() {
     }, [cookies.token]);
 
     return (
-        <div className="w-full h-full min-h-screen flex items-center justify-center">
-
+        <div className="w-full h-full min-h-screen flex flex-col items-center justify-center space-y-4">
             <Card className="w-96 h-fit">
                 <CardHeader>
                     <CardTitle>Connexion</CardTitle>
@@ -71,7 +97,6 @@ export default function Login() {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <CardContent className="space-y-5">
-
                             <FormField
                                 control={form.control}
                                 name="username"
@@ -100,10 +125,14 @@ export default function Login() {
                                 )}
                             />
                         </CardContent>
-                        <CardFooter>
+                        <CardFooter className="flex-col space-y-4">
+                            <CaptchaComponent 
+                                ref={captchaRef} 
+                                currentActiveScene={null} 
+                            />
                             {isLoading
-                            ? <Button disabled><Loader2 className="animate-spin" /> Se connecter</Button>
-                            : <Button >Se connecter</Button>}
+                            ? <Button disabled><Loader2 className="animate-spin mr-2" /> Se connecter</Button>
+                            : <Button type="submit" disabled={!isCaptchaValid}>Se connecter</Button>}
                         </CardFooter>
                     </form>
                 </Form>

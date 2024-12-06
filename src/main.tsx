@@ -8,7 +8,6 @@ import NotFound from './routes/NotFound.tsx'
 import { Dashboard } from './routes/Dashboard.tsx'
 import { Layout } from './routes/Layout.tsx'
 import { Podcasts } from './routes/Podcasts.tsx'
-import Captcha from './routes/capcha_test.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

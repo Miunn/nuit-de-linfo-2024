@@ -3,7 +3,7 @@ import GameCore from './phaser/gamecore'
 import { EventBus } from './phaser/eventbus';
 import MainScene from './phaser/scenes/mainscene';
 
-const ip = "http://10.8.11.200:7999"
+const ip = "http://localhost:7999"
 
 export interface IArg {
   currentActiveScene: Phaser.Scene | null
