@@ -14,8 +14,8 @@ export function Layout() {
 
     return (
         <div>
-            <header>
-                <ul>
+            <header className="fixed w-full">
+                <ul className=" w-full flex justify-end pt-5 pr-10 bg-transparent">
                     <li>
                         <Button variant="link" onClick={onClickPodcasts}>Podcasts</Button></li>
                     <li>
