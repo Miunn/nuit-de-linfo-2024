@@ -4,6 +4,7 @@ import { GAME_CONFIG } from '../config/gameConfig';
 import { BeachRight } from './scenes/BeachRight';
 import { LiverGame } from './scenes/LiverGame';
 import { HeartGame } from './scenes/HeartGame';
+import LungGame from './scenes/LungGame';
 
 export const gameConfig: Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -28,5 +29,5 @@ export const gameConfig: Types.Core.GameConfig = {
       debug: false
     }
   },
-  scene: [BeachLeft, BeachRight, LiverGame, HeartGame]
+  scene: [BeachLeft, BeachRight, LiverGame, LungGame, HeartGame]
 };
