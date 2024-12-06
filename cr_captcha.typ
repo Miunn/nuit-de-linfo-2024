@@ -1,5 +1,7 @@
 = Documentation captcha
 
+Le captcha est disponible dans notre application dans la page /login.
+
 == Front-end
 
 Le captcha permet de jouer a un jeu de rapiditée ou il faut trier des objets qui vont dans l'océan (poisson / plongeur / pokemon eau / etc.)
