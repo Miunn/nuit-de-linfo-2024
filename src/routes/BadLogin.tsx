@@ -22,7 +22,7 @@ const BadLogin: React.FC = () => {
     const [cookies, setCookie] = useCookies(["token"]);
     const navigate = useNavigate();
 
-    const { control, handleSubmit, formState: { errors } } = useForm<z.infer<typeof LOGIN_SCHEMA>>({
+    const { control, handleSubmit } = useForm<z.infer<typeof LOGIN_SCHEMA>>({
         resolver: zodResolver(LOGIN_SCHEMA),
         defaultValues: {
             username: "",
