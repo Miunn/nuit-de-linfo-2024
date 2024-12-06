@@ -3,16 +3,31 @@ import { Button } from "@/components/ui/button";
 import { Meteors } from "@/components/ui/meteors";
 import { Toaster } from "@/components/ui/toaster";
 import Spline from '@splinetool/react-spline';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
     const [gameStarted, setGameStarted] = useState(false);
 
-
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
 
     const startGame = () => {
         setGameStarted(true);
     }
+
+    const moveLogo = () => {
+        setX(Math.random() * window.innerWidth);
+        setY(Math.random() * window.innerHeight);
+        console.log(x, y);
+    }
+
+    useEffect(() => {
+        const intervalle = setInterval(() => {
+            moveLogo();
+        }, 1000);
+
+        return () => clearInterval(intervalle);
+    }, [moveLogo]);
 
     return (
         <div className="absolute top-0 left-0 w-full min-h-screen" style={{
