@@ -7,14 +7,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { redirectIfTokenValid } from "@/lib/utils"; 
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { toast } from "@/hooks/use-toast";
-// import { motion } from "framer-motion";
 import {
     IconClipboardCopy,
 } from "@tabler/icons-react";
-// Remove the direct import of ErrorsHeader
-// import ErrorsHeader from "@/components/ErrorsHeader";
 
-// Lazy load ErrorsHeader
 const ErrorsHeader = lazy(() => import("@/components/ErrorsHeader"));
 
 const Dashboard: React.FC = () => {
