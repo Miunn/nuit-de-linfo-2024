@@ -2,7 +2,7 @@ import { Prompt } from '@/components/Game/Prompt';
 import { GAME_CONFIG } from '@/config/gameConfig';
 import { Scene, GameObjects, Input } from 'phaser';
 
-export class Scene1 extends Scene {
+export class BeachRight extends Scene {
   private player!: GameObjects.Sprite;
   private items: GameObjects.Sprite[] = [];
   private prompt!: Prompt;
@@ -11,7 +11,7 @@ export class Scene1 extends Scene {
   private itemsCollected = 0;
 
   constructor() {
-    super({ key: 'Scene1' });
+    super({ key: 'BeachRight' });
   }
 
   preload() {
@@ -33,7 +33,7 @@ export class Scene1 extends Scene {
     this.player = this.add.sprite(100, GAME_CONFIG.WALK_PATH_Y, 'character');
     this.player.setScale(2.5);
 
-    const itemsConfig = GAME_CONFIG.ITEMS.filter(item => item.location === "scene1");
+    const itemsConfig = GAME_CONFIG.ITEMS.filter(item => item.location === "beach_right");
 
     itemsConfig.forEach(config => {
       const item = this.add.sprite(config.x, config.y, 'item');
@@ -48,6 +48,11 @@ export class Scene1 extends Scene {
       this.items.push(item);
     });
 
+    // Left arrow to go to BeachLeft
+    this.add.text(10, 10, '←', { fontSize: '48px' })
+    .setInteractive()
+    .on('pointerdown', () => this.scene.start('BeachLeft'));
+    
     this.prompt = new Prompt(this);
 
     this.anims.create({
@@ -81,7 +86,7 @@ export class Scene1 extends Scene {
         this.player.x = this.targetX;
         this.isMoving = false;
         this.player.anims.stop();
-        this.player.setFrame(4); // Standing frame
+        this.player.setFrame(4);
       } else {
         this.player.x += direction * (speed / 60);
         this.player.play('walk', true);
