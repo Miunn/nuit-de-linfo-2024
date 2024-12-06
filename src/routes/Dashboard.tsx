@@ -1,13 +1,14 @@
 // src/pages/Dashboard.tsx
 
 import React, { useEffect, Suspense, lazy } from "react";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import { Toaster } from "@/components/ui/toaster";
 import { redirectIfTokenValid } from "@/lib/utils";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { toast } from "@/hooks/use-toast";
 import PredictAndSetInteractions from "@/components/Predict";
+import NumberTicker from "@/components/ui/number-ticker";
 // import { motion } from "framer-motion";
 
 // Remove the direct import of ErrorsHeader
@@ -19,6 +20,52 @@ const ErrorsHeader = lazy(() => import("@/components/ErrorsHeader"));
 const Dashboard: React.FC = () => {
     const [cookies] = useCookies(["token"]);
     const navigate = useNavigate();
+    const [logins, setLogins] = React.useState(0);
+    const [podcasts, setPodcasts] = React.useState(0);
+    const [game, setGame] = React.useState(0);
+    const [captcha, setCaptcha] = React.useState(0);
+
+    const loadInteractions = async () => {
+        const r = await fetch(`${import.meta.env.VITE_STATS_REMOTE_URL}/interactions`, {
+            headers: {
+                "Authorization": `Bearer ${cookies.token}`,
+                "Content-Type": "application/json",
+            }
+        })
+
+        if (!r.ok) {
+            document.cookie = "";
+            navigate("/login");
+        }
+
+        const data = await r.json();
+        let log = 0;
+        let pod = 0;
+        let gam = 0;
+        let cap = 0;
+
+        data.forEach((interaction: any) => {
+            switch (interaction.action) {
+                case "login":
+                    log++;
+                    break;
+                case "watch_podcast":
+                    pod++;
+                    break;
+                case "game":
+                    gam++;
+                    break;
+                case "captcha":
+                    cap++;
+                    break;
+            }
+        });
+
+        setLogins(log);
+        setPodcasts(pod);
+        setGame(gam);
+        setCaptcha(cap);
+    }
 
     useEffect(() => {
         if (!cookies.token) {
@@ -33,6 +80,10 @@ const Dashboard: React.FC = () => {
         }
     }, [cookies.token, navigate]);
 
+    useEffect(() => {
+        loadInteractions();
+    }, []);
+
     return (
 
         <div className="min-h-screen flex flex-col overflow-hidden" style={{
@@ -45,8 +96,11 @@ const Dashboard: React.FC = () => {
                         title="Connexions"
                         description="Nombre d'utilisateur s'étant connectés"
                         header={
-                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800">
-                                {/* Optional: Add content here */}
+                            <div className="flex flex-1 justify-center items-center w-full h-full min-h-[6rem]">
+                                {logins == 0 ?
+                                    <p className="text-8xl">0</p>
+                                    : <NumberTicker className="text-8xl" value={logins} />
+                                }
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 cursor-pointer hover:shadow-lg transition"
@@ -57,8 +111,11 @@ const Dashboard: React.FC = () => {
                         title="Jeu"
                         description="Nombre d'utilisateurs ayant terminé le jeu"
                         header={
-                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-yellow-100 to-yellow-200 dark:from-yellow-900 dark:to-yellow-800">
-                                {/* Optional: Add content here */}
+                            <div className="flex flex-1 items-center justify-center w-full h-full min-h-[6rem]">
+                                {game == 0 ?
+                                    <p className="text-8xl">0</p>
+                                    : <NumberTicker className="text-8xl" value={game} />
+                                }
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4 cursor-pointer hover:shadow-lg transition"
@@ -69,8 +126,11 @@ const Dashboard: React.FC = () => {
                         title="Podcast"
                         description="Nombre d'utilisateur ayant visionné un podcast"
                         header={
-                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800">
-                                {/* You can add content here if needed */}
+                            <div className="flex flex-1 justify-center items-center w-full h-full min-h-[6rem]">
+                                {podcasts == 0 ?
+                                    <p className="text-8xl">0</p>
+                                    : <NumberTicker className="text-8xl" value={podcasts} />
+                                }
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
@@ -91,8 +151,11 @@ const Dashboard: React.FC = () => {
                         title="Captcha"
                         description="Nombre d'utilisateurs ayant réussi le captcha"
                         header={
-                            <div className="flex flex-1 w-full h-full min-h-[6rem] bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800">
-                                {/* You can add content here if needed */}
+                            <div className="flex flex-1 justify-center items-center w-full h-full min-h-[6rem]">
+                                {captcha == 0 ?
+                                    <p className="text-8xl">0</p>
+                                    : <NumberTicker className="text-8xl" value={captcha} />
+                                }
                             </div>
                         }
                         className="md:col-span-1 border border-neutral-200 dark:border-neutral-800 rounded-xl p-4"
