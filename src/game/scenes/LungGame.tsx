@@ -67,7 +67,7 @@ export default class LungGame extends Phaser.Scene {
       //console.log(this.tint_timer)
       this.bg?.setTint(this.tint_color)
       this.tint_timer -= 16
-      if (this.tint_color !== 0xff0000)
+      if (this.tint_color !== 0xffaaaa)
         this.poumon?.setAlpha(0.2)
     } else {
       this.bg?.setTint(0xffffff)

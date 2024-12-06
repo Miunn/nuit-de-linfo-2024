@@ -38,20 +38,24 @@ export class BeachRight extends Scene {
 
     itemsConfig.forEach(config => {
       const item = this.add.sprite(config.x, config.y, 'item')
-        .setData('messageR', config.message)
-        .setData('sceneR', config.scene)
+        .setData('message', config.message)
+        .setData('scene', config.scene)
       console.log('item', item);
       item.setInteractive();
 
       item.on('pointerdown', (pointer: Input.Pointer) => {
       pointer.event.stopPropagation();
-      this.scene.start(item.getData('sceneR'), {
-        items: this.itemsCollected
+      this.prompt.show(item.getData('message'));
+      const itemScene = item.getData('scene');
+      this.time.delayedCall(2000, () => {
+        this.scene.start(itemScene);
       });
       item.destroy();
       });
       this.items.push(item);
     });
+
+    this.prompt = new Prompt(this);
 
     this.anims.create({
       key: 'walk',
