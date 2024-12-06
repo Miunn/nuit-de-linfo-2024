@@ -7,7 +7,6 @@ import Login from './routes/Login.tsx'
 import NotFound from './routes/NotFound.tsx'
 import Predict from './routes/Predict.tsx'
 import Dashboard from './routes/Dashboard.tsx'
-import { Dashboard } from './routes/Dashboard.tsx'
 import { Layout } from './routes/Layout.tsx'
 import { Podcasts } from './routes/Podcasts.tsx'
 
@@ -20,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="podcasts" element={<Podcasts />} />
           <Route path="login" element={<Login />} />
+          <Route path="predict" element={<Predict />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
