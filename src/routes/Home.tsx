@@ -15,7 +15,7 @@ export default function Home() {
     }
 
     return (
-        <div className="w-full min-h-screen" style={{
+        <div className="absolute top-0 left-0 w-full min-h-screen" style={{
             background: "linear-gradient(115deg, #62cff4, #2c67f2)"
         }}>
             {/* Meaty part - Meteor effect */}
